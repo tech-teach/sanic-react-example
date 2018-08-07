@@ -34,7 +34,6 @@ python app.py
 # Quick tutorial for frontend
 
 ## Install requirements
-Note: to install pip requirements, need to have already active a virtual environment.
 ```sh
 npm install
 ```
