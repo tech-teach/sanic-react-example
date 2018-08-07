@@ -22,7 +22,10 @@ async def delete_task(request, _id):
     if request.method == "DELETE":
         if _id >= len(tasks) or _id < 0:
             return response.json({"status": "not found"})
-        del tasks[int(_id)]
+        try:
+            del tasks[int(_id)]
+        except ValueError:
+            return response.json({"status": "id is not valid"})
         return response.json({"status": "deleted", "id": _id})
     else:
         return response.json({})
