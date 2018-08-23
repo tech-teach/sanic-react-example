@@ -27,6 +27,7 @@ class App extends Component {
         if(err){
           console.error(err);
         } else {
+          console.log(res.body);
           this.setState({ tasks: res.body.tasks});
         }
       })
@@ -59,6 +60,19 @@ class App extends Component {
       })
   }
 
+  mark_as_done(id){
+    request
+      .post(`http://localhost:8000/realized/${id}`)
+      .end((err,res) => {
+        if(err){
+          console.error(err);
+        }else{
+          console.log(res.body);
+          this.getTasks();
+        }
+      })
+  }
+
   render() {
     return (
       <div className="App">
@@ -68,20 +82,27 @@ class App extends Component {
         >
         </input>
         <button onClick={ () => this.saveTask() }>Add task</button>
-        <ul>
+        <table border="1" height="20">
+          <tr>
+            <td>Valor</td>
+            <td>Marcado como realizado</td>
+            <td>Opciones</td>
+          </tr>
           {
-            this.state.tasks.map(
-              (task, id) => (
-                <li
-                  key={id}
-                  onClick={() => this.deleteTask(id)}
-                >
-                  {task}
-                </li>
-              )
-            )
+            this.state.tasks.map((task,id) => (
+              <tr>
+                <td style={task[1]?"text-decoration:underline":"text-decoration:none"} width="120" >{task[0]}</td>
+                <td width="100"></td>
+                <td>
+                  <form>
+                    <button style="width: 80px" type="submit" onClick={() => this.mark_as_done(id)}>Realizado</button>
+                    <button style="width: 80px" type="submit" onClick={() => this.deleteTask(id)}>Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            ))
           }
-        </ul>
+        </table>
       </div>
     );
   }

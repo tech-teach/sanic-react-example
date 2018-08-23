@@ -11,8 +11,8 @@ tasks = []
 @app.route('/task', methods=["POST", "OPTIONS"])
 async def save_task(request):
     if request.method == "POST":
-        task = request.json.get('task')
-        tasks.append(task)
+        task = request.args.get('task')
+        tasks.append([task,False])
         return response.json({"status": "saved"})
     else:
         return response.json({})
@@ -20,7 +20,7 @@ async def save_task(request):
 @app.route('/task/<_id>', methods=["DELETE", "OPTIONS"])
 async def delete_task(request, _id):
     if request.method == "DELETE":
-        if _id >= len(tasks) or _id < 0:
+        if int(_id) >= len(tasks) or int(_id) < 0:
             return response.json({"status": "not found"})
         try:
             del tasks[int(_id)]
@@ -34,6 +34,22 @@ async def delete_task(request, _id):
 async def get_tasks(request):
     if request.method == "GET":
         return response.json({"tasks": tasks})
+    else:
+        return response.json({})
+
+@app.route('/realized/<_id>', methods=["POST", "OPTIONS"])
+async def mark_as_done(request, _id):
+    if request.method == "POST":
+        if int(_id) >= len(tasks) or int(_id) < 0:
+            return response.json({"status": "not found"})
+        try:
+            if tasks[int(_id)][1]:
+                tasks[int(_id)][1]=False
+            else:
+                tasks[int(_id)][1]=True
+        except ValueError:
+            return response.json({"status": "id is not valid"})
+        return response.json({"status": "realized", "id": _id})
     else:
         return response.json({})
 
