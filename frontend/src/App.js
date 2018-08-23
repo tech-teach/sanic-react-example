@@ -18,6 +18,7 @@ class App extends Component {
 
   handleInputChange(value){
     this.setState({ task: value });
+    console.log(value);
   }
 
   getTasks(then){
@@ -27,7 +28,7 @@ class App extends Component {
         if(err){
           console.error(err);
         } else {
-          console.log(res.body);
+          console.log(res.body.tasks);
           this.setState({ tasks: res.body.tasks});
         }
       })
@@ -81,8 +82,9 @@ class App extends Component {
           onChange={event => this.handleInputChange(event.target.value)}
         >
         </input>
-        <button onClick={ () => this.saveTask() }>Add task</button>
+        <button onClick={() => this.saveTask()}>Add task</button>
         <table border="1" height="20">
+        <tbody>
           <tr>
             <td>Valor</td>
             <td>Marcado como realizado</td>
@@ -90,18 +92,19 @@ class App extends Component {
           </tr>
           {
             this.state.tasks.map((task,id) => (
-              <tr>
-                <td style={task[1]?"text-decoration:underline":"text-decoration:none"} width="120" >{task[0]}</td>
+              <tr key={id}>
+                <td style={{textDecoration:task[1]?'underline':'none'}} width="120" >{task[0]}</td>
                 <td width="100"></td>
                 <td>
                   <form>
-                    <button style="width: 80px" type="submit" onClick={() => this.mark_as_done(id)}>Realizado</button>
-                    <button style="width: 80px" type="submit" onClick={() => this.deleteTask(id)}>Eliminar</button>
+                    <button style={{width: '80px'}} type="submit" onClick={() => this.mark_as_done(id)}>Realizado</button>
+                    <button style={{width: '80px'}} type="submit" onClick={() => this.deleteTask(id)}>Eliminar</button>
                   </form>
                 </td>
               </tr>
             ))
           }
+        </tbody>
         </table>
       </div>
     );
