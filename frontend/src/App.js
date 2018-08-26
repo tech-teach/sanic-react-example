@@ -97,10 +97,8 @@ class App extends Component {
                   <td style={{textDecoration:task[1]?'underline':'none'}} width="120" >{task[0]}</td>
                   <td width="100">{task[1] ? 'yes' : 'no'}</td>
                   <td>
-                    <form>
-                      <button style={{width: '80px'}} type="submit" onClick={() => this.mark_as_done(id)}>{task[1] ? "No realizado" : "Realizado"}</button>
-                      <button style={{width: '80px'}} type="submit" onClick={() => this.deleteTask(id)}>Eliminar</button>
-                    </form>
+                    <button onClick={() => this.mark_as_done(id)}>{task[1] ? "No realizado" : "Realizado"}</button>
+                    <button onClick={() => this.deleteTask(id)}>Eliminar</button>
                   </td>
                 </tr>
               ))
