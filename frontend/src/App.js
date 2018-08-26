@@ -29,7 +29,8 @@ class App extends Component {
           console.error(err);
         } else {
           console.log(res.body.tasks);
-          this.setState({ tasks: res.body.tasks});
+          this.setState({ tasks: res.body.tasks},
+          ()=>console.log(this.state));
         }
       })
   }
@@ -40,7 +41,7 @@ class App extends Component {
       .send({task: this.state.task})
       .end((err, res) => {
         if(err){
-          console.error(err);
+          console.error(JSON.stringify(err.response.body.status));
         } else {
           console.log(res.body);
           this.getTasks();
@@ -83,28 +84,28 @@ class App extends Component {
         >
         </input>
         <button onClick={() => this.saveTask()}>Add task</button>
-        <table border="1" height="20">
-        <tbody>
-          <tr>
-            <td>Valor</td>
-            <td>Marcado como realizado</td>
-            <td>Opciones</td>
-          </tr>
-          {
-            this.state.tasks.map((task,id) => (
-              <tr key={id}>
-                <td style={{textDecoration:task[1]?'underline':'none'}} width="120" >{task[0]}</td>
-                <td width="100">{task[1]}</td>
-                <td>
-                  <form>
-                    <button style={{width: '80px'}} type="submit" onClick={() => this.mark_as_done(id)}>Realizado</button>
-                    <button style={{width: '80px'}} type="submit" onClick={() => this.deleteTask(id)}>Eliminar</button>
-                  </form>
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
+        <table border="1">
+          <tbody>
+            <tr>
+              <td>Valor</td>
+              <td>Marcado como realizado</td>
+              <td>Opciones</td>
+            </tr>
+            {
+              this.state.tasks.map((task,id) => (
+                <tr key={id}>
+                  <td style={{textDecoration:task[1]?'underline':'none'}} width="120" >{task[0]}</td>
+                  <td width="100">{task[1] ? 'yes' : 'no'}</td>
+                  <td>
+                    <form>
+                      <button style={{width: '80px'}} type="submit" onClick={() => this.mark_as_done(id)}>{task[1] ? "No realizado" : "Realizado"}</button>
+                      <button style={{width: '80px'}} type="submit" onClick={() => this.deleteTask(id)}>Eliminar</button>
+                    </form>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
         </table>
       </div>
     );
