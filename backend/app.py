@@ -57,10 +57,7 @@ async def mark_as_done(request, _id):
 
     try:
         id_index = int(_id)
-        if tasks[id_index][1]:
-            tasks[id_index][1]=False
-        else:
-            tasks[id_index][1]=True
+        tasks[id_index][1] = not tasks[id_index][1]
     except ValueError:
         return response.json(
             {"status": "The id param is not int parseable"},
