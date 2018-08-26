@@ -94,7 +94,7 @@ class App extends Component {
             this.state.tasks.map((task,id) => (
               <tr key={id}>
                 <td style={{textDecoration:task[1]?'underline':'none'}} width="120" >{task[0]}</td>
-                <td width="100"></td>
+                <td width="100">{task[1]}</td>
                 <td>
                   <form>
                     <button style={{width: '80px'}} type="submit" onClick={() => this.mark_as_done(id)}>Realizado</button>
