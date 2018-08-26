@@ -20,7 +20,7 @@ async def save_task(request):
             status=400
         )
 
-    tasks.append([task,False])
+    tasks.append([task, False])
     return response.json({"status": "saved"})
 
 @app.route('/task/<_id>', methods=["DELETE", "OPTIONS"])
