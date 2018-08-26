@@ -11,7 +11,7 @@ tasks = []
 @app.route('/task', methods=["POST", "OPTIONS"])
 async def save_task(request):
     if request.method == "POST":
-        task = request.args.get('task')
+        task = request.json.get('task')
         tasks.append([task,False])
         return response.json({"status": "saved"})
     else:
